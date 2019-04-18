@@ -12,8 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-var fs = require('fs'),
-  logger = require('./logger');
+var fs = require('fs');
 
 function getSection(lines, sectionName) {
   var match = /^\s*\[(.*)\]/
@@ -44,7 +43,7 @@ function validatedConfig(config) {
   if (!(config.host && config.access_token &&
         config.client_secret && config.client_token)) {
           var errorMessage = "";
-          var tokens = 
+          var tokens =
             ['client_token', 'client_secret','access_token','host'];
           tokens.forEach(function(token) {
             if (!config[token]) {
@@ -60,7 +59,7 @@ function validatedConfig(config) {
   }
 
   config.host = 'https://' + config.host;
-      
+
   return config;
 }
 
@@ -101,7 +100,7 @@ function readEnv(section) {
   // If any are set, we're committed
   var envConf = {};
   var envPrefix = "AKAMAI_" + section.toUpperCase()
-  var tokens = 
+  var tokens =
     ['client_token', 'client_secret','access_token','host'];
 
   tokens.forEach(function(token){
@@ -110,7 +109,7 @@ function readEnv(section) {
       envConf[token] = process.env[envcheck];
     }
   })
-  
+
   if (Object.keys(envConf).length > 0) {
     console.log("Using configuration from environment variables")
     return validatedConfig(envConf);
@@ -126,8 +125,8 @@ module.exports = function(path, conf) {
   }
 
   if (!path) {
-    if (process.env.EDGEGRID_ENV !== 'test') {
-      logger.error('No .edgerc path');
+    if (process.env.EDGEGRID_ENV !== 'test') {      
+      console.error('No .edgerc path');
     }
 
     throw new Error('No edgerc path');

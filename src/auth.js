@@ -14,7 +14,6 @@
 
 var uuid = require('uuid'),
   helpers = require('./helpers'),
-  logger = require('./logger'),
   url = require('url');
 
 function makeAuthHeader(request, clientToken, accessToken, clientSecret, timestamp, nonce, maxBody) {
@@ -35,11 +34,11 @@ function makeAuthHeader(request, clientToken, accessToken, clientSecret, timesta
 
   authHeader = 'EG1-HMAC-SHA256 ' + joinedPairs;
 
-  logger.info('Unsigned authorization header: ' + authHeader + '\n');
+  //logger.info('Unsigned authorization header: ' + authHeader + '\n');
 
   signedAuthHeader = authHeader + 'signature=' + helpers.signRequest(request, timestamp, clientSecret, authHeader, maxBody);
 
-  logger.info('Signed authorization header: ' + signedAuthHeader + '\n');
+  //logger.info('Signed authorization header: ' + signedAuthHeader + '\n');
 
   return signedAuthHeader;
 }

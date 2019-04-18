@@ -14,8 +14,7 @@
 
 var crypto = require('crypto'),
   moment = require('moment'),
-  url = require('url'),
-  logger = require('./logger');
+  url = require('url');
 
 module.exports = {
   createTimestamp: function() {
@@ -30,7 +29,7 @@ module.exports = {
       var postDataNew = '',
         key;
 
-      logger.info('Body content is type Object, transforming to POST data');
+      //logger.info('Body content is type Object, transforming to POST data');
 
       for (key in preparedBody) {
         postDataNew += key + '=' + encodeURIComponent(JSON.stringify(preparedBody[key])) + '&';
@@ -43,23 +42,23 @@ module.exports = {
       request.body = preparedBody; // Is this required or being used?
     }
 
-    logger.info('Body is \"' + preparedBody + '\"');
-    logger.debug('PREPARED BODY LENGTH', preparedBody.length);
-    
+    //logger.info('Body is \"' + preparedBody + '\"');
+    //logger.debug('PREPARED BODY LENGTH', preparedBody.length);
+
     if (request.method === 'POST' && preparedBody.length > 0) {
-      logger.info('Signing content: \"' + preparedBody + '\"');
+      //logger.info('Signing content: \"' + preparedBody + '\"');
 
       // If body data is too large, cut down to max-body size
       if (preparedBody.length > maxBody) {
-        logger.warn('Data length (' + preparedBody.length + ') is larger than maximum ' + maxBody);
+        //logger.warn('Data length (' + preparedBody.length + ') is larger than maximum ' + maxBody);
         preparedBody = preparedBody.substring(0, maxBody);
-        logger.info('Body truncated. New value \"' + preparedBody + '\"');
+        //logger.info('Body truncated. New value \"' + preparedBody + '\"');
       }
 
-      logger.debug('PREPARED BODY', preparedBody);
+      //logger.debug('PREPARED BODY', preparedBody);
 
       contentHash = this.base64Sha256(preparedBody);
-      logger.info('Content hash is \"' + contentHash + '\"');
+      //logger.info('Content hash is \"' + contentHash + '\"');
     }
 
     return contentHash;
@@ -79,7 +78,7 @@ module.exports = {
 
     dataToSign = dataToSign.join('\t').toString();
 
-    logger.info('Data to sign: "' + dataToSign + '" \n');
+    //logger.info('Data to sign: "' + dataToSign + '" \n');
 
     return dataToSign;
   },
@@ -135,7 +134,7 @@ module.exports = {
   signingKey: function(timestamp, clientSecret) {
     var key = this.base64HmacSha256(timestamp, clientSecret);
 
-    logger.info('Signing key: ' + key + '\n');
+    //logger.info('Signing key: ' + key + '\n');
 
     return key;
   },

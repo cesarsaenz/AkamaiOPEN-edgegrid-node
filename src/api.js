@@ -16,8 +16,7 @@ var request = require('request'),
   url = require('url'),
   auth = require('./auth'),
   edgerc = require('./edgerc'),
-  helpers = require('./helpers'),
-  logger = require('./logger');
+  helpers = require('./helpers');
 
 var EdgeGrid = function(client_token, client_secret, access_token, host, debug) {
   // accepting an object containing a path to .edgerc and a config section
@@ -46,7 +45,7 @@ EdgeGrid.prototype.auth = function(req) {
   if (process.env['AKAMAI_CLI'] && process.env['AKAMAI_CLI_VERSION']) {
     headers['User-Agent'] = ( headers['User-Agent'] ? headers['User-Agent'] + " " : "" ) + `AkamaiCLI/${ process.env['AKAMAI_CLI_VERSION']}`;
   }
-  if (process.env['AKAMAI_CLI_COMMAND'] && process.env['AKAMAI_CLI_COMMAND_VERSION']) { 
+  if (process.env['AKAMAI_CLI_COMMAND'] && process.env['AKAMAI_CLI_COMMAND_VERSION']) {
     headers['User-Agent'] = ( headers['User-Agent'] ? headers['User-Agent'] + " " : "" ) + `AkamaiCLI-${ process.env['AKAMAI_CLI_COMMAND'] }/${ process.env['AKAMAI_CLI_COMMAND_VERSION'] }`;
   }
   req = helpers.extend(req, {
@@ -75,8 +74,8 @@ EdgeGrid.prototype.auth = function(req) {
 };
 
 EdgeGrid.prototype.send = function(callback) {
-  request(this.request, function(error, response, body) { 
-    
+  request(this.request, function(error, response, body) {
+
     if (error) {
       callback(error);
       return;
@@ -133,7 +132,7 @@ function validatedArgs(args) {
   expected.forEach(function(arg, i) {
     if (!args[i]) {
       if (process.env.EDGEGRID_ENV !== 'test') {
-        logger.error('No defined ' + arg);
+        console.error('No defined ' + arg);
       }
 
       valid = false;
